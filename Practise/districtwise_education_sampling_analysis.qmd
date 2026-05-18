@@ -1,0 +1,109 @@
+---
+title: "Districtwise Education Sampling Analysis"
+format: html
+---
+
+#
+```{python}
+import pandas as pd
+data=pd.read_csv("C:/Users/Udith P Kidiyoor/Downloads/education_districtwise.csv")
+data.head(10)
+```
+#
+```{python}
+data.info()
+```
+#
+```{python}
+data.shape
+```
+#
+```{python}
+data.describe()
+```
+#
+```{python}
+data.isna().sum()
+```
+#
+```{python}
+data=data.dropna()
+```
+#
+```{python}
+sampled_data=data.sample(n=50, replace=True, random_state=31208)
+sampled_data
+```
+### Insights-
+The output shows 50 districts selected randomly from your dataset. Each has a different literacy rate, but note that row 254 was sampled twice, which is possible because you sampled with replacement.
+#
+```{python}
+estimate1=sampled_data["OVERALL_LI"].mean()
+estimate1
+```
+#
+```{python}
+estimate2=data["OVERALL_LI"].sample(n=50, replace=True, random_state=56810).mean()
+estimate2
+```
+### Insights
+For your second estimate, the sample mean for district literacy rate is about 74.25%.
+
+Due to sampling variability, this sample mean is different from the sample mean of your previous estimate, 74.22% – but they’re really close.
+#
+```{python}
+estimate_list=[]
+for i in range(10000):
+    estimate_list.append(data["OVERALL_LI"].sample(n=50, replace=True).mean())
+estimate_df=pd.DataFrame({"estimate":estimate_list})
+```
+```{python}
+estimate_df.describe()
+```
+#
+```{python}
+sample_mean=estimate_df.mean()
+sample_mean
+```
+#
+```{python}
+population_mean=data["OVERALL_LI"].mean()
+population_mean
+```
+#
+```{python}
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.figure(figsize=(10,5))
+sns.histplot(
+    estimate_df["estimate"],
+    color="darkorange",
+    kde=True
+)
+plt.axvline(
+    x=estimate_df["estimate"].mean(),
+    color="green",
+    label="Mean of Sample Means"
+)
+plt.axvline(
+    x=population_mean,
+    color="red",
+    label="Population Mean"
+)
+plt.title("Sampling Distribution")
+plt.xlabel("Sample Mean")
+plt.ylabel("Density")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+
+
+
+
+
+
+
+
