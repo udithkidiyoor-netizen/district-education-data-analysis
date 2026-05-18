@@ -1,0 +1,139 @@
+---
+title: "Districtwise Education Statistical Analysis"
+format: html
+---
+# Loading the Dataset
+## Dataset Overview
+```{python}
+import pandas as pd
+data=pd.read_csv("C:/Users/Udith P Kidiyoor/Downloads/education_districtwise.csv")
+data.head(15)
+```
+This dataset represents a list of school districts in an anonymous country. The data includes district and state names, total population, and the literacy rate.
+## Inspecting Dataset Information
+```{python}
+data.info()
+```
+## Checking Dataset Dimensions
+```{python}
+data.shape
+```
+## Generating Descriptive Statistics
+```{python}
+data.describe()
+```
+## Checking for Missing Values
+```{python}
+data.isna().sum()
+```
+## Identifying Rows with Missing Values
+```{python}
+mask=data.isna()
+mask
+```
+```{python}
+mask=mask.any(axis=1)
+mask
+```
+## Extracting Rows Containing Missing Values
+```{python}
+nulls=data[mask]
+nulls
+```
+## Removing Missing Values
+```{python}
+data=data.dropna()
+```
+## Selecting Numerical Features
+```{python}
+numerical_features=data.select_dtypes(include=("float64","int64"))
+numerical_features
+```
+## Visualizing Outliers Using Boxplots
+```{python}
+import matplotlib.pyplot as plt
+import seaborn as sns
+plt.figure(figsize=(10,5))
+for i,column in enumerate(numerical_features):
+    plt.subplot(3,2,i+1)
+    sns.boxplot(data=data, x=column, color="darkorange")
+    plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+## Visualizing Feature Distributions
+```{python}
+plt.figure(figsize=(10,5))
+for i,column in enumerate(numerical_features):
+    plt.subplot(3,2,i+1)
+    sns.histplot(data=data[column], kde=True, color="darkorange")
+    plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+## Calculating the Mean Literacy Rate
+```{python}
+mean=data["OVERALL_LI"].mean()
+mean
+```
+## Calculating the Standard Deviation
+```{python}
+std=data["OVERALL_LI"].std()
+std
+```
+#
+```{python}
+upper_limit=mean + 1*std
+upper_limit
+lower_limit= mean - 1*std
+lower_limit
+```
+## Calculating Values Within 1 Standard Deviation
+```{python}
+data["OVERALL_LI"].between(lower_limit, upper_limit).mean()*100
+```
+## Finding the 2 Standard Deviation Range
+```{python}
+upper_limit=mean + 2 *std
+upper_limit
+lower_limit= mean - 2 *std
+lower_limit
+```
+## Calculating Values Within 2 Standard Deviations
+```{python}
+data["OVERALL_LI"].between(lower_limit, upper_limit).mean()*100
+```
+## Finding the 3 Standard Deviation Range
+```{python}
+upper_limit=mean + 3*std
+upper_limit
+lower_limit= mean - 3 *std
+lower_limit
+```
+## Calculating Values Within 3 Standard Deviations
+```{python}
+data["OVERALL_LI"].between(lower_limit, upper_limit).mean()*100
+```
+## Comparing Results with the Empirical Rule
+### Insights- Our values of 66.4%, 95.4%, and 99.6% are very close to the values the empirical rule suggests: roughly 68%, 95%, and 99.7%.
+## Calculating Z-Scores
+```{python}
+from scipy import stats
+data["Z_score"]=stats.zscore(data["OVERALL_LI"])
+data.head(10)
+```
+## Detecting Outliers Using Z-Score
+```{python}
+data[(data["Z_score"]>3) | (data["Z_score"]<-3)]
+```
+
+
+
+
+
+
+
+
+
+
+
