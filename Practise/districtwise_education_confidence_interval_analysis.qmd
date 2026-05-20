@@ -1,0 +1,50 @@
+---
+title: "Untitled"
+format: html
+---
+
+## Importing Libraries and Loading Dataset
+```{python}
+import pandas as pd
+data=pd.read_csv("C:/Users/Udith P Kidiyoor/Downloads/education_districtwise.csv")
+data.head(10)
+```
+## Dataset Overview
+# Data Information and Structure
+```{python}
+data.info()
+```
+## Missing Value Analysis
+```{python}
+data.isna().sum()
+```
+## Data Cleaning
+```{python}
+data=data.dropna()
+```
+## Random Sampling of the Dataset
+```{python}
+sample_data=data.sample(n=50, replace=True, random_state=42)
+sample_data
+```
+## Calculating Sample Mean
+```{python}
+sample_mean=sample_data["OVERALL_LI"].mean()
+sample_mean
+# 73.6594
+```
+## Computing Standard Error
+```{python}
+import numpy as np
+sample_standard_error=data["OVERALL_LI"].std()/np.sqrt(data.shape[0])
+sample_standard_error
+```
+## Confidence Interval Estimation
+```{python}
+from scipy import stats
+stats.norm.interval(confidence= 0.95, loc=sample_mean, scale= sample_standard_error)
+```
+
+
+
+
