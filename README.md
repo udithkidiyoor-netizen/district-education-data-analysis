@@ -108,3 +108,6 @@ Planned future enhancements include:
 ## Author
 
 Developed as part of a statistical data analysis and exploratory learning workflow using Python and Quarto.
+
+# Practice
+`Statistical analysis of district-wise education data using sampling techniques, standard error estimation, and confidence interval analysis in Python.`
