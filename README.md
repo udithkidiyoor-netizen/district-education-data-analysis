@@ -111,3 +111,5 @@ Developed as part of a statistical data analysis and exploratory learning workfl
 
 # Practice
 `Statistical analysis of district-wise education data using sampling techniques, standard error estimation, and confidence interval analysis in Python.`
+
+`Performed two-sample hypothesis testing on district literacy data.`
