@@ -1,0 +1,78 @@
+---
+title: "Untitled"
+format: html
+---
+
+#
+Department of Education asks you to collect data on mean district literacy rates for two of the nation’s largest states: STATE21 and STATE28. STATE28 has almost 40 districts, and STATE21 has more than 70. Due to limited time and resources, you are only able to survey 20 randomly chosen districts in each state. The department asks you to determine if the difference between the two mean district literacy rates is statistically significant or due to chance. This will help the department decide how to distribute government funding to improve literacy. If there is a statistically-significant difference, the state with the lower literacy rate may receive more funding.
+```{python}
+import pandas as pd
+data=pd.read_csv("C:/Users/Udith P Kidiyoor/Downloads/education_districtwise.csv")
+data.head(10)
+```
+#
+```{python}
+data.info()
+```
+#
+```{python}
+data.isna().sum()
+```
+#
+```{python}
+data.shape
+```
+
+#
+```{python}
+data=data.dropna()
+```
+#
+```{python}
+data["STATNAME"].value_counts()
+```
+#
+```{python}
+state_21=data[data["STATNAME"]=="STATE21"]
+state_21.shape
+```
+#
+```{python}
+state_28=data[data["STATNAME"]=="STATE28"]
+state_28.shape
+```
+#
+```{python}
+sample_state_21=state_21.sample(n=20, replace=True, random_state=13490)
+```
+#
+```{python}
+sample_state_28=state_28.sample(n=20, replace=True, random_state=39103)
+```
+#
+```{python}
+print(sample_state_21["OVERALL_LI"].mean())
+print(sample_state_28["OVERALL_LI"].mean())
+```
+### Insights
+-STATE21 has a mean district literacy rate of about 70.8%, while STATE28 has a mean district literacy rate of about 64.6%.
+
+-Based on your sample data, the observed difference between the mean district literacy rates of STATE21 and STATE28 is 6.2 percentage points (70.8% - 64.6%). 
+# Conducting Hypothesis testing
+## Stating null and alternate hypothesis
+ $H_0$: There is no difference in the mean district literacy rates between STATE21 and STATE28.
+$H_A$: There is a difference in the mean district literacy rates between STATE21 and STATE28.
+
+```{python}
+from scipy import stats
+stats.ttest_ind(a=sample_state_21["OVERALL_LI"], b=sample_state_28["OVERALL_LI"], equal_var=False)
+```
+p-value of 0.0064, or 0.64%, is less than the significance level of 0.05, or 5%. Therefore, you will reject the null hypothesis and conclude that there is a statistically significant difference between the mean district literacy rates of the two states: STATE21 and STATE28.
+
+
+
+
+
+
+
+
